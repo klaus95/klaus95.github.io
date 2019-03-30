@@ -1,0 +1,40 @@
+.btns {
+	float:right;
+	color: white;
+
+	margin: 1px 6px;
+	padding: 5px;
+
+	cursor: pointer;
+}
+#btn_crs_1, #btn_crs_2, #btn_crs_3, #btn_crs_4 {
+	opacity: 0.5;
+}
+#btn_crs_1 {
+	background-color: red;
+	color: red;
+}
+#btn_crs_2 {
+	background-color: blue;
+	color: blue;
+}
+#btn_crs_3 {
+	background-color: green;
+	color: green;
+}
+#btn_crs_4 {
+	background-color: orange;
+	color: orange;
+}
+#btn_1_em, #btn_2_em, #btn_3_em, #btn_4_em  {
+	color: #1e1e1d;
+}
+#btnbar {
+	height: 42px;
+	margin: 20px 0;
+	margin-top: 10px;
+
+	font-family: courier, monaco, monospace, consolas;
+	font-size: 16px;
+	color: #ffffff;
+}

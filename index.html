@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Terminal</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/terminal.css">
+	<link rel="stylesheet" href="css/titlebar.css">
+	<link rel="stylesheet" href="css/intro.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body onload="startup()" onscroll="set_cursor_position()">
+	<div id="container">
+		<div id="btnbar">
+			<span class="btns" ><span id="btn_1" ></span><span id="btn_crs_1">_</span><span id="btn_1_em" >Contact</span></span>
+			<span class="btns" ><span id="btn_2" ></span><span id="btn_crs_2">_</span><span id="btn_2_em" >About</span></span>
+			<span class="btns" ><span id="btn_3" ></span><span id="btn_crs_3">_</span><span id="btn_3_em" >Projects</span></span>
+			<span class="btns" ><span id="btn_4" ></span><span id="btn_crs_4">_</span><span id="btn_4_em" >Terminal</span></span>
+		</div>
+		<div class="intro">
+			<p>
+				Hi there,
+				<br><br>
+				My name is Klaus Cipi, a Computer Science student at <a href="https://www.fit.edu">Florida Institute of Technology</a> 
+				in Melbourne, Florida. I love to transalate my ideas into code. I have been envolved in many cool projects in a variety 
+				of programming lanugages. Don't belive me? Take a look at my <a href="">resume</a>.<br>
+				<br>
+				Currently, I am working on <a href="https://www.adhocapi.com">a API for unifying Ad-hoc networks</a>, which allows for easy communication 
+				between differnt OS (<i class="fab fa-android"></i> Android, <i class="fab fa-apple"></i> MacOS, 
+				<i class="fab fa-windows"></i> Windows, and <i class="fab fa-linux"></i> Linux)<span id="txtcrs">_</span>
+				<br><br>
+				Click on the terminal, and type "help" for the list of commands.
+			</p>
+		</div>
+		<div id="window">
+			<div id="titlebar">
+				<div id="outer">
+					<div id="centered">
+						<div onclick="closeWin()"><span class="control glyphicon glyphicon-remove-sign"></span></div>
+						<div onclick="minimizeWin()"><span class="control glyphicon glyphicon-minus-sign"></span></div>
+					</div>
+					<span id="root"></span>
+				</div>
+			</div>
+			<div id="terminal" onscroll="scrollCursor()" onclick="focusOnTerminal()">
+				<div id="history"></div>
+				<div id="row">
+					<span id="const"></span><span id="cursor">_</span>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<span>contact_links: </span>
+			<span id="link_1" onclick="goTo('linkedin')"><u>linkedin</u></span>
+			<span id="link_2" onclick="goTo('github')"><u>github</u></span>
+			<span id="link_3" onclick="goTo('facebook')"><u>facebook</u></span>
+			<span id="link_4" onclick="goTo('twitter')"><u>twitter</u></span>
+			<span id="link_5" onclick="goTo('email')"><u>email</u></span>
+			<span id="handmade" style="float: right;"><i class="fas fa-terminal"></i> with <i class="fas fa-heart"></i> by <b>Klaus Cipi</b></span>
+		</div>
+	</div>
+	<script src="js/terminal.js"></script>
+	<script src="js/titlebar.js"></script>
+	<script src="js/intro.js"></script>
+</body>
+</html>
