@@ -12,6 +12,9 @@ var lines = 0;
 var startupLen = 0;
 var startupText = "";
 
+var focused = false;
+var fakeTextarea;
+
 function setHeight() {
 	horizontal_step = document.getElementById("cursor").getBoundingClientRect().width;
 	max_length = parseInt(document.getElementById("terminal").clientWidth/horizontal_step, 10) - 1;
@@ -49,6 +52,13 @@ function scrollCursor(){
 
 function focusOnTerminal(){
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
+	focused = true;
+	fakeTextarea = document.createElement("textarea");
+	fakeTextarea.style.position = "absolute";
+	fakeTextarea.style.left = "-200px";
+	fakeTextarea.style.top = "0";
+	document.getElementById("container").appendChild(fakeTextarea);
+	fakeTextarea.focus();
 }
 
 function set_cursor_position() {
@@ -95,101 +105,105 @@ activateOnResize();
 
 window.addEventListener("keydown", function (e) {
 
-  if (e.key == "Backspace") {
+	if (focused) {
+		console.log(fakeTextarea.value)
+		if (e.key == "Backspace") {
+	
+			if (chars > 0 && Math.abs(offset) < chars) {
+	
+				if (local_chars == 0) {
+					var str = document.getElementById('const').textContent;
+					document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
+					lines--;
+					chars--;
+					local_chars = max_length;
+				}
+	
+				if (offset == 0) {
+					var str = document.getElementById('const').textContent;
+					document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
+				} else {
+					var str = document.getElementById('const').textContent;
+					var len = str.length;
+					var begin = str.substring(0, len + offset - 1);
+					var end = str.substring(len + offset, len);
+					document.getElementById('const').innerHTML = begin + end;
+				}
+	
+				chars--;
+				local_chars--;
+	
+			} else {
+						console.log("outside");
+			}
+	
+		} else if (e.key == "Enter") {
+	
+			var old_line = document.getElementById('const').textContent;
+			var history = document.getElementById('history');
+			var newDiv = document.createElement("DIV");
+			newDiv.style.whiteSpace = "pre-wrap";
+			newDiv.innerHTML = old_line;
+			history.append(newDiv);
+	
+			var command = parseCommand(old_line);
+	
+			document.getElementById('const').innerHTML = old_line.substring(0, startupLen);
+			chars = 0;
+			local_chars = startupLen;
+			offset = 0;
+			lines = 0;
+	
+		} else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <= 192) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 32) {
+	
+			if (offset == 0) {
+	
+				var str = document.getElementById('const').textContent;
+				document.getElementById('const').innerHTML = str + e.key;
+	
+			} else {
+	
+				var str = document.getElementById('const').textContent;
+				var len = str.length;
+				var begin = str.substring(0, len + offset);
+				var end = str.substring(len + offset, len);
+				document.getElementById('const').innerHTML = begin + e.key + end;
+			}
+	
+			chars++;
+			local_chars++;
+	
+			if (local_chars == max_length) {
+				var str = document.getElementById('const').textContent;
+				document.getElementById('const').innerHTML = str + "\n";
+				lines++;
+				chars++;
+				local_chars = 0;
+			}
+	
+		} else if (e.key == "ArrowRight") {
+	
+			if (offset < 0) {
+				offset++;
+			}
+	
+		} else if (e.key == "ArrowLeft") {
+			
+			if (chars > 0 && Math.abs(offset) < chars) {
+				offset--;
+			}
+			
+		} else if (e.key == "ArrowDown") {
+	
+			offset = 0;
+	
+		} else {
+	
+			console.log("Else Keys not implemented");
+	
+		}
+	}
 
-  	if (chars > 0 && Math.abs(offset) < chars) {
-
-      if (local_chars == 0) {
-        var str = document.getElementById('const').textContent;
-        document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
-        lines--;
-        chars--;
-        local_chars = max_length;
-      }
-
-  		if (offset == 0) {
-  			var str = document.getElementById('const').textContent;
-  			document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
-  		} else {
-  			var str = document.getElementById('const').textContent;
-	  		var len = str.length;
-	  		var begin = str.substring(0, len + offset - 1);
-	  		var end = str.substring(len + offset, len);
-	    	document.getElementById('const').innerHTML = begin + end;
-  		}
-
-  		chars--;
-      local_chars--;
-
-  	} else {
-          console.log("outside");
-    }
-
-  } else if (e.key == "Enter") {
-
-  	var old_line = document.getElementById('const').textContent;
-  	var history = document.getElementById('history');
-  	var newDiv = document.createElement("DIV");
-  	newDiv.style.whiteSpace = "pre-wrap";
-  	newDiv.innerHTML = old_line;
-  	history.append(newDiv);
-
-    var command = parseCommand(old_line);
-
-  	document.getElementById('const').innerHTML = old_line.substring(0, startupLen);
-  	chars = 0;
-    local_chars = startupLen;
-  	offset = 0;
-    lines = 0;
-
-  } else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 186 && e.keyCode <= 192) || (e.keyCode >= 219 && e.keyCode <= 222) || e.keyCode == 32) {
-
-  	if (offset == 0) {
-
-  		var str = document.getElementById('const').textContent;
-    	document.getElementById('const').innerHTML = str + e.key;
-
-  	} else {
-
-  		var str = document.getElementById('const').textContent;
-  		var len = str.length;
-  		var begin = str.substring(0, len + offset);
-  		var end = str.substring(len + offset, len);
-    	document.getElementById('const').innerHTML = begin + e.key + end;
-  	}
-
-    chars++;
-    local_chars++;
-
-    if (local_chars == max_length) {
-      var str = document.getElementById('const').textContent;
-      document.getElementById('const').innerHTML = str + "\n";
-      lines++;
-      chars++;
-      local_chars = 0;
-    }
-
-  } else if (e.key == "ArrowRight") {
-
-  	if (offset < 0) {
-  		offset++;
-  	}
-
-  } else if (e.key == "ArrowLeft") {
-  	
-  	if (chars > 0 && Math.abs(offset) < chars) {
-    	offset--;
-  	}
-  	
-  } else if (e.key == "ArrowDown") {
-
-  	offset = 0;
-
-  } else {
-
-    console.log("Else Keys not implemented");
-
-  }
   set_cursor_position();
 
   console.log("chars: " + chars);
