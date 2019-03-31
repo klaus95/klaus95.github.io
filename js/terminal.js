@@ -55,8 +55,8 @@ function focusOnTerminal(){
 	if (!focused) {
 		fakeTextarea = document.createElement("textarea");
 		fakeTextarea.style.position = "absolute";
-		fakeTextarea.style.left = "-200px";
-		fakeTextarea.style.top = "0";
+		fakeTextarea.style.left = "-250px";
+		fakeTextarea.style.top = document.getElementById("row").getBoundingClientRect().top;
 		document.getElementById("footer").appendChild(fakeTextarea);
 		fakeTextarea.focus();
 	}
@@ -106,7 +106,7 @@ function activateOnResize() {
 activateOnResize();
 
 window.addEventListener("keydown", function (e) {
-
+	console.log(fakeTextarea.value)
 	if (focused) {
 		
 		if (e.key == "Backspace") {
