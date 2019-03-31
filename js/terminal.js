@@ -52,13 +52,15 @@ function scrollCursor(){
 
 function focusOnTerminal(){
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
+	if (!focused) {
+		fakeTextarea = document.createElement("textarea");
+		fakeTextarea.style.position = "absolute";
+		fakeTextarea.style.left = "-200px";
+		fakeTextarea.style.top = "0";
+		document.getElementById("footer").appendChild(fakeTextarea);
+		fakeTextarea.focus();
+	}
 	focused = true;
-	fakeTextarea = document.createElement("textarea");
-	fakeTextarea.style.position = "absolute";
-	fakeTextarea.style.left = "-200px";
-	fakeTextarea.style.top = "0";
-	document.getElementById("container").appendChild(fakeTextarea);
-	fakeTextarea.focus();
 }
 
 function set_cursor_position() {
@@ -106,7 +108,7 @@ activateOnResize();
 window.addEventListener("keydown", function (e) {
 
 	if (focused) {
-		console.log(fakeTextarea.value)
+		
 		if (e.key == "Backspace") {
 	
 			if (chars > 0 && Math.abs(offset) < chars) {
@@ -138,7 +140,8 @@ window.addEventListener("keydown", function (e) {
 			}
 	
 		} else if (e.key == "Enter") {
-	
+			fakeTextarea.value = "";
+
 			var old_line = document.getElementById('const').textContent;
 			var history = document.getElementById('history');
 			var newDiv = document.createElement("DIV");
