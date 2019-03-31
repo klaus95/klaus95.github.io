@@ -1,11 +1,3 @@
-.btns {
-	color: white;
-
-	margin: 10px 1px;
-	padding-top: 10px;
-
-	cursor: pointer;
-}
 #btn_crs_1, #btn_crs_2, #btn_crs_3, #btn_crs_4 {
 	opacity: 0.5;
 }
@@ -38,4 +30,14 @@
 	font-family: courier, monaco, monospace, consolas;
 	font-size: 16px;
 	color: #ffffff;
+}
+.btns {
+	color: white;
+
+	display:inline-block;
+
+	margin: 1px 1px;
+	padding-top: 5px;
+
+	cursor: pointer;
 }

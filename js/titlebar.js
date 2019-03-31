@@ -11,9 +11,9 @@ function optimizeBarBtn2() {
       var currentW = elements.item(i).getBoundingClientRect().width + 2;
       elements.item(i).style.margin = "1px " + (windowW - 60 - currentW)/2 + "px";
     }
-    document.getElementById("btnbar").style.height = "84px"
+    document.getElementById("btnbar").style.height = "120px"
   } else {
-    document.getElementById("btnbar").style.height = "42px";
+    document.getElementById("btnbar").style.height = "45px";
     for (var i = 0; i < elements.length; i++) {
       elements.item(i).style.margin = "1px 1px";
     }

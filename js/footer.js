@@ -28,6 +28,7 @@ function optimizeFooter() {
             elements.item(i).style.margin = "0 " + (windowW - 60 - currentW)/2 + "px";
         }
         elements.item(elements.length - 1).style.marginTop = "20px";
+        elements.item(elements.length - 1).style.marginBottom = "20px";
     } else {
         for (var i = 0; i < elements.length; i++) {
             elements.item(i).style.margin = "0 0 0 0";
