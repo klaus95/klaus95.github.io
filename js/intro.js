@@ -10,26 +10,6 @@ var animate = function() {
 }
 animate();
 
-function changeVars(item, length){
-  counter = 0
-  var colorPicker = function() {
-    var element = document.getElementById(item);
-    var r = Math.floor(Math.random() * 250) + 20;
-    var g = Math.floor(Math.random() * 250) + 20;
-    var b = Math.floor(Math.random() * 250) + 20;
-    element.style.color = "rgb("+r+","+b+","+g+")";
-    counter++;
-    if (counter <= length) {setTimeout(colorPicker, 250);}
-  }
-  colorPicker()
-}
-
-for(var i = 1; i <= 5; i++) {
-  var str = "link_" + i;
-  var len = (i * 20) + 10;
-  changeVars(str, len);
-}
-
 function goTo(url) {
   if (url === "linkedin") {
     window.open("https://www.linkedin.com/in/klauscipi/");

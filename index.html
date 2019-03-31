@@ -7,16 +7,19 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/terminal.css">
 	<link rel="stylesheet" href="css/titlebar.css">
+	<link rel="stylesheet" href="css/footer.css">
 	<link rel="stylesheet" href="css/intro.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body onload="startup()" onscroll="set_cursor_position()">
 	<div id="container">
 		<div id="btnbar">
-			<span class="btns" ><span id="btn_1" ></span><span id="btn_crs_1">_</span><span id="btn_1_em" >Contact</span></span>
-			<span class="btns" ><span id="btn_2" ></span><span id="btn_crs_2">_</span><span id="btn_2_em" >About</span></span>
-			<span class="btns" ><span id="btn_3" ></span><span id="btn_crs_3">_</span><span id="btn_3_em" >Projects</span></span>
-			<span class="btns" ><span id="btn_4" ></span><span id="btn_crs_4">_</span><span id="btn_4_em" >Terminal</span></span>
+			<div id="bar-pos">
+				<span class="btns" ><span id="btn_1" ></span><span id="btn_crs_1">_</span><span id="btn_1_em" >Terminal</span></span>
+				<span class="btns" ><span id="btn_2" ></span><span id="btn_crs_2">_</span><span id="btn_2_em" >Projects</span></span>
+				<span class="btns" ><span id="btn_3" ></span><span id="btn_crs_3">_</span><span id="btn_3_em" >About</span></span>
+				<span class="btns" ><span id="btn_4" ></span><span id="btn_crs_4">_</span><span id="btn_4_em" >Contact</span></span>
+			</div>
 		</div>
 		<div class="intro">
 			<p>
@@ -37,8 +40,8 @@
 			<div id="titlebar">
 				<div id="outer">
 					<div id="centered">
-						<div onclick="closeWin()"><span class="control glyphicon glyphicon-remove-sign"></span></div>
-						<div onclick="minimizeWin()"><span class="control glyphicon glyphicon-minus-sign"></span></div>
+						<span onclick="closeWin()"><span class="control glyphicon glyphicon-remove-sign"></span></span>
+						<span onclick="minimizeWin()"><span class="control glyphicon glyphicon-minus-sign"></span></span>
 					</div>
 					<span id="root"></span>
 				</div>
@@ -51,17 +54,18 @@
 			</div>
 		</div>
 		<div id="footer">
-			<span>contact_links: </span>
-			<span id="link_1" onclick="goTo('linkedin')"><u>linkedin</u></span>
-			<span id="link_2" onclick="goTo('github')"><u>github</u></span>
-			<span id="link_3" onclick="goTo('facebook')"><u>facebook</u></span>
-			<span id="link_4" onclick="goTo('twitter')"><u>twitter</u></span>
-			<span id="link_5" onclick="goTo('email')"><u>email</u></span>
-			<span id="handmade" style="float: right;"><i class="fas fa-terminal"></i> with <i class="fas fa-heart"></i> by <b>Klaus Cipi</b></span>
+			<span class="links" >Say hi. </span>
+			<span class="links" id="link_1" onclick="goTo('linkedin')"><u>linkedin</u></span>
+			<span class="links" id="link_2" onclick="goTo('github')"><u>github</u></span>
+			<span class="links" id="link_3" onclick="goTo('facebook')"><u>facebook</u></span>
+			<span class="links" id="link_4" onclick="goTo('twitter')"><u>twitter</u></span>
+			<span class="links" id="link_5" onclick="goTo('email')"><u>email</u></span>
+			<span class="links" id="handmade"><i class="fas fa-terminal"></i> with <i class="fas fa-heart"></i> by <b>Klaus Cipi</b></span>
 		</div>
 	</div>
-	<script src="js/terminal.js"></script>
 	<script src="js/titlebar.js"></script>
+	<script src="js/footer.js"></script>
 	<script src="js/intro.js"></script>
+	<script src="js/terminal.js"></script>
 </body>
 </html>

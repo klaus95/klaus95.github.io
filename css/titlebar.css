@@ -1,9 +1,8 @@
 .btns {
-	float:right;
 	color: white;
 
-	margin: 1px 6px;
-	padding: 5px;
+	margin: 10px 1px;
+	padding-top: 10px;
 
 	cursor: pointer;
 }
@@ -29,10 +28,12 @@
 #btn_1_em, #btn_2_em, #btn_3_em, #btn_4_em  {
 	color: #1e1e1d;
 }
+#bar-pos{
+	float: right;
+}
 #btnbar {
 	height: 42px;
 	margin: 20px 0;
-	margin-top: 10px;
 
 	font-family: courier, monaco, monospace, consolas;
 	font-size: 16px;

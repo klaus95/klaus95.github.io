@@ -1,0 +1,22 @@
+#footer {
+	margin-top: 30px;
+
+	font-family: courier, monaco, monospace, consolas;
+	font-size: 14px;
+	color: #ffffff;
+}
+#handmade {
+    font-size: 13px;
+    float: right;
+
+    white-space: pre;
+}
+#link_1, #link_2, #link_3, #link_4, #link_5 {
+	cursor: pointer;
+}
+a:link {
+	color: green;
+}
+a:visited {
+	color: green;
+}

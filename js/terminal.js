@@ -13,7 +13,6 @@ var startupLen = 0;
 var startupText = "";
 
 function setHeight() {
-	var h = window.innerHeight;
 	horizontal_step = document.getElementById("cursor").getBoundingClientRect().width;
 	max_length = parseInt(document.getElementById("terminal").clientWidth/horizontal_step, 10) - 1;
 }
@@ -28,9 +27,12 @@ function startup() {
   local_chars = startupLen;
 
 	document.getElementById("const").innerHTML = startupText;
-  document.getElementById("root").innerHTML = startupRoot;
-	set_cursor_position()
+	document.getElementById("root").innerHTML = startupRoot;
+	
+	set_cursor_position();
 	setHeight();
+	optimizeBarBtn2();
+	optimizeFooter();
 }
 
 function scrollCursor(){
@@ -66,9 +68,30 @@ function parseCommand(str) {
   return newStr;
 }
 
-window.addEventListener('resize', function(event){
-  setHeight();
+var throttled = false;
+
+window.addEventListener('resize', function() {
+	// only run if we're not throttled
+if (!throttled) {
+	// actual callback action
+	activateOnResize();
+	// we're throttled!
+	throttled = true;
+	// set a timeout to un-throttle
+	setTimeout(function() {
+		throttled = false;
+	}, 100);
+}  
 });
+
+function activateOnResize() {
+	setHeight();
+	set_cursor_position();
+	optimizeBarBtn2();
+	optimizeFooter();
+}
+
+activateOnResize();
 
 window.addEventListener("keydown", function (e) {
 
