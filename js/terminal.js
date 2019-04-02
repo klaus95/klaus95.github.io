@@ -91,7 +91,7 @@ window.addEventListener("keydown", function (e) {
 
 	if (focused) {
 		e = e || window.event;
-    	var code = evt.keyCode || evt.which;
+    	var code = e.keyCode || e.which;
 		if (code == 8) {
 	
 			if (chars > 0 && Math.abs(offset) < chars) {
