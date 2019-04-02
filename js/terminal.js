@@ -90,8 +90,9 @@ window.addEventListener("keydown", function (e) {
 	console.log(fakeTextarea.value)
 
 	if (focused) {
-		
-		if (e.key == "Backspace") {
+		e = e || window.event;
+    	var code = evt.keyCode || evt.which;
+		if (code == 8) {
 	
 			if (chars > 0 && Math.abs(offset) < chars) {
 	
@@ -121,7 +122,7 @@ window.addEventListener("keydown", function (e) {
 				console.log("outside");
 			}
 	
-		} else if (e.key == "Enter") {
+		} else if (code == 13) {
 			fakeTextarea.value = "";
 
 			var old_line = document.getElementById('const').textContent;
@@ -166,19 +167,19 @@ window.addEventListener("keydown", function (e) {
 				local_chars = 0;
 			}
 	
-		} else if (e.key == "ArrowRight") {
+		} else if (code == 39) {
 	
 			if (offset < 0) {
 				offset++;
 			}
 	
-		} else if (e.key == "ArrowLeft") {
+		} else if (code == 37) {
 			
 			if (chars > 0 && Math.abs(offset) < chars) {
 				offset--;
 			}
 			
-		} else if (e.key == "ArrowDown") {
+		} else if (code == 40) {
 	
 			offset = 0;
 	
