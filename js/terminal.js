@@ -27,7 +27,7 @@ function closeWin() {
 function startup() {
 	startupText = "root@klauscipi.com $ ";
 	startupLen = startupText.length;
-  local_chars = startupLen;
+  	local_chars = startupLen;
 
 	document.getElementById("const").innerHTML = startupText;
 	document.getElementById("root").innerHTML = startupRoot;
@@ -51,27 +51,33 @@ function scrollCursor(){
 }
 
 function focusOnTerminal(){
+
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
 	if (!focused) {
 		fakeTextarea = document.createElement("textarea");
 		fakeTextarea.style.position = "absolute";
 		fakeTextarea.style.left = "-250px";
 		fakeTextarea.style.top = document.getElementById("row").getBoundingClientRect().top;
-		document.getElementById("footer").appendChild(fakeTextarea);
-		fakeTextarea.focus();
+		document.getElementById("terminal").appendChild(fakeTextarea);
 	}
+	fakeTextarea.focus();
 	focused = true;
+
 }
 
 function set_cursor_position() {
-	var messageBody = document.getElementById('terminal');
-	messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+	if (!isMobile()) {
+		var messageBody = document.getElementById('terminal');
+		messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 
-	var element = document.getElementById("cursor");
-	var row = document.getElementById("row").getBoundingClientRect();
-	element.style.position = "fixed";
-	element.style.top = row.top + (lines*line_height) + "px";
-	element.style.left = (row.left + (local_chars+offset) * horizontal_step) + "px";
+		var element = document.getElementById("cursor");
+		var row = document.getElementById("row").getBoundingClientRect();
+		element.style.position = "fixed";
+		element.style.top = row.top + (lines*line_height) + "px";
+		element.style.left = (row.left + (local_chars+offset) * horizontal_step) + "px";
+	} else {
+		document.getElementById("cursor").style.position = "initial";
+	}
 }
 
 function parseCommand(str) {
@@ -80,33 +86,9 @@ function parseCommand(str) {
   return newStr;
 }
 
-var throttled = false;
-
-window.addEventListener('resize', function() {
-	// only run if we're not throttled
-if (!throttled) {
-	// actual callback action
-	activateOnResize();
-	// we're throttled!
-	throttled = true;
-	// set a timeout to un-throttle
-	setTimeout(function() {
-		throttled = false;
-	}, 100);
-}  
-});
-
-function activateOnResize() {
-	setHeight();
-	set_cursor_position();
-	optimizeBarBtn2();
-	optimizeFooter();
-}
-
-activateOnResize();
-
 window.addEventListener("keydown", function (e) {
 	console.log(fakeTextarea.value)
+
 	if (focused) {
 		
 		if (e.key == "Backspace") {
@@ -136,7 +118,7 @@ window.addEventListener("keydown", function (e) {
 				local_chars--;
 	
 			} else {
-						console.log("outside");
+				console.log("outside");
 			}
 	
 		} else if (e.key == "Enter") {
