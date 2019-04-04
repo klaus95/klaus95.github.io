@@ -176,6 +176,7 @@ window.addEventListener("keydown", function (e) {
 	
 		} else if (code == 13) {
 			fakeTextarea.value = "";
+			androidLines = 0;
 
 			var old_line = document.getElementById('const').textContent;
 			var history = document.getElementById('history');
