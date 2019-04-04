@@ -1,7 +1,7 @@
 const startupRoot = "root@klauscipi.com: ~/";
 const windowHeight = 450;
-var horizontal_step = 9;
 const line_height = 20;
+var horizontal_step = 9;
 var max_length = 87;
 
 var chars = 0;
@@ -15,6 +15,11 @@ var startupText = "";
 var focused = false;
 var fakeTextarea;
 
+var browserDetector = "";
+
+var code = 0;
+var existingChars = "";
+
 function setHeight() {
 	horizontal_step = document.getElementById("cursor").getBoundingClientRect().width;
 	max_length = parseInt(document.getElementById("terminal").clientWidth/horizontal_step, 10) - 1;
@@ -25,6 +30,8 @@ function closeWin() {
 }
 
 function startup() {
+	browserDetector = window.navigator.userAgent;
+
 	startupText = "root@klauscipi.com $ ";
 	startupLen = startupText.length;
   	local_chars = startupLen;
@@ -36,6 +43,15 @@ function startup() {
 	setHeight();
 	optimizeBarBtn2();
 	optimizeFooter();
+}
+
+function isAndroid() {
+	var str = browserDetector.toLowerCase();
+	if (str.indexOf("android") != -1) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function scrollCursor(){
@@ -53,31 +69,73 @@ function scrollCursor(){
 function focusOnTerminal(){
 
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
+
 	if (!focused) {
+
 		fakeTextarea = document.createElement("textarea");
-		fakeTextarea.style.position = "absolute";
+		fakeTextarea.style.position = "fixed";
 		fakeTextarea.style.left = "-250px";
 		fakeTextarea.style.top = document.getElementById("row").getBoundingClientRect().top;
 		document.getElementById("terminal").appendChild(fakeTextarea);
+		fakeTextarea.style.resize = "none";
+
+		fakeTextarea.addEventListener("beforeinput", function (e) {
+			
+			if (isAndroid()) {
+				var typed = e.data;
+				if (typed != null) {
+					if (existingChars.length > typed.length) {
+						typed = null;
+					}
+				}
+				if (typed != null) {
+					var str = document.getElementById('const').textContent;
+					document.getElementById('const').innerHTML = str + typed.slice(-1);
+				} else {
+					if (code != 13) {
+						var str = document.getElementById('const').textContent;
+						
+						if (str.length > startupLen) {
+							document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
+						}
+					}
+				}
+				if (typed != null) {
+					existingChars = typed;
+				} else {
+					existingChars = "";
+				}
+			}
+
+		})
 	}
+
 	fakeTextarea.focus();
 	focused = true;
-
 }
 
 function set_cursor_position() {
+
+	var messageBody = document.getElementById('terminal');
+	messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
 	if (!isMobile()) {
-		var messageBody = document.getElementById('terminal');
-		messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
 
 		var element = document.getElementById("cursor");
 		var row = document.getElementById("row").getBoundingClientRect();
 		element.style.position = "fixed";
 		element.style.top = row.top + (lines*line_height) + "px";
 		element.style.left = (row.left + (local_chars+offset) * horizontal_step) + "px";
+
 	} else {
+
 		document.getElementById("cursor").style.position = "initial";
+
+		if (isAndroid()) {
+			document.getElementById("cursor").style.opacity = 1;
+		}
 	}
+
 }
 
 function parseCommand(str) {
@@ -87,11 +145,11 @@ function parseCommand(str) {
 }
 
 window.addEventListener("keydown", function (e) {
-	console.log(fakeTextarea.value)
 
 	if (focused) {
-		e = e || window.event;
-    	var code = e.keyCode || e.which;
+
+		code = e.keyCode || e.which;
+		
 		if (code == 8) {
 	
 			if (chars > 0 && Math.abs(offset) < chars) {
@@ -118,8 +176,6 @@ window.addEventListener("keydown", function (e) {
 				chars--;
 				local_chars--;
 	
-			} else {
-				console.log("outside");
 			}
 	
 		} else if (code == 13) {
@@ -183,18 +239,7 @@ window.addEventListener("keydown", function (e) {
 	
 			offset = 0;
 	
-		} else {
-	
-			console.log("Else Keys not implemented");
-	
 		}
 	}
-
   set_cursor_position();
-
-  console.log("chars: " + chars);
-  console.log("lchars: " + local_chars);
-  console.log("offset: " + offset);
-  console.log("lines: " + lines);
-  console.log("max_length: " + max_length);
 })
