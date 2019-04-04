@@ -17,6 +17,7 @@ var fakeTextarea;
 
 var browserDetector = "";
 var code = 0;
+var androidLines = 0;
 
 function setHeight() {
 	horizontal_step = document.getElementById("cursor").getBoundingClientRect().width;
@@ -74,16 +75,23 @@ function focusOnTerminal(){
 		fakeTextarea.style.position = "fixed";
 		fakeTextarea.style.left = "-250px";
 		fakeTextarea.style.top = document.getElementById("row").getBoundingClientRect().top;
+		fakeTextarea.style.whiteSpace = "pre";
 		document.getElementById("terminal").appendChild(fakeTextarea);
 		fakeTextarea.style.resize = "none";
 
 		fakeTextarea.addEventListener("beforeinput", function (e) {
-			
+
 			if (isAndroid()) {
 				var typed = e.data;
 				if (typed != null) {
 					var str = document.getElementById('const').textContent;
 					document.getElementById('const').innerHTML = str + typed;
+					
+					if ((str.length + 1) % max_length == androidLines) {
+						var str = document.getElementById('const').textContent;
+						document.getElementById('const').innerHTML = str + "\n";
+						androidLines++;
+					}
 				} else {
 					if (code != 13) {
 						var str = document.getElementById('const').textContent;
