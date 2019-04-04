@@ -16,9 +16,7 @@ var focused = false;
 var fakeTextarea;
 
 var browserDetector = "";
-
 var code = 0;
-var existingChars = "";
 
 function setHeight() {
 	horizontal_step = document.getElementById("cursor").getBoundingClientRect().width;
@@ -84,13 +82,8 @@ function focusOnTerminal(){
 			if (isAndroid()) {
 				var typed = e.data;
 				if (typed != null) {
-					if (existingChars.length > typed.length) {
-						typed = null;
-					}
-				}
-				if (typed != null) {
 					var str = document.getElementById('const').textContent;
-					document.getElementById('const').innerHTML = str + typed.slice(-1);
+					document.getElementById('const').innerHTML = str + typed;
 				} else {
 					if (code != 13) {
 						var str = document.getElementById('const').textContent;
@@ -99,11 +92,6 @@ function focusOnTerminal(){
 							document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
 						}
 					}
-				}
-				if (typed != null) {
-					existingChars = typed;
-				} else {
-					existingChars = "";
 				}
 			}
 
