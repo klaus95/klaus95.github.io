@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Terminal</title>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<title>Klaus Cipi</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="media/web-logo.png"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/terminal.css">
 	<link rel="stylesheet" href="css/titlebar.css">
@@ -11,7 +12,7 @@
 	<link rel="stylesheet" href="css/intro.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body onload="startup()" onscroll="set_cursor_position()">
+<body onload="startup()">
 	<div id="container">
 		<div id="btnbar">
 			<div id="bar-pos">
@@ -22,12 +23,11 @@
 			</div>
 		</div>
 		<div class="intro">
+			<p id="greeting"></p>
 			<p>
-				Hi there,
-				<br><br>
 				My name is Klaus Cipi, a Computer Science student at <a href="https://www.fit.edu">Florida Institute of Technology</a> 
 				in Melbourne, Florida. I love to translate my ideas into code. I have been involved in many cool projects in a variety 
-				of programming languages. Don't believe me? Take a look at my <a href="">resume</a>.<br>
+				of programming languages. Don't believe me? Take a look at my <a href="docs/resume.pdf">resume</a>.<br>
 				<br>
 				Currently, I am working on <a href="https://www.adhocapi.com">a API for unifying Ad-hoc networks</a>, which allows for easy communication 
 				between different OS (<i class="fab fa-android"></i> Android, <i class="fab fa-apple"></i> MacOS, 
@@ -40,13 +40,13 @@
 			<div id="titlebar">
 				<div id="outer">
 					<div id="centered">
-						<span onclick="closeWin()"><span class="control glyphicon glyphicon-remove-sign"></span></span>
-						<span onclick="minimizeWin()"><span class="control glyphicon glyphicon-minus-sign"></span></span>
+						<span><span class="control glyphicon glyphicon-remove-sign"></span></span>
+						<span><span class="control glyphicon glyphicon-minus-sign"></span></span>
 					</div>
-					<span id="root"></span>
+					<span id="root">root@klauscipi.com: ~/</span>
 				</div>
 			</div>
-			<div id="terminal" onscroll="scrollCursor()" onclick="focusOnTerminal()">
+			<div id="terminal" onclick="focusOnTerminal()">
 				<div id="history"></div>
 				<div id="row">
 					<span id="const"></span><span id="cursor">_</span>
