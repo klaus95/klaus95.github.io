@@ -39,22 +39,7 @@ function focusOnTerminal(){
 				updateScroll();
 
 			} else {
-				if (code == 8) { //backspace
-
-					var str = document.getElementById('const').textContent;
-					if (str.charAt(str.length - 1) == '\n') {	
-						document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
-						lines--;
-						chars = max_length;
-					}
-					
-					if (chars > ((lines > 0) ? 0 : startupLen)) {
-						var str = document.getElementById('const').textContent;
-						document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
-						chars--;
-					}
-
-				} else if (code == 13) { //enter
+				if (code == 13) { //enter
 
 					var old_line = document.getElementById('const').textContent;
 					var command = old_line.substring(startupLen, old_line.length).replace("\n", "");
@@ -74,9 +59,21 @@ function focusOnTerminal(){
 				
 					updateScroll();
 
+				} else { //backspace
+					var str = document.getElementById('const').textContent;
+					if (str.charAt(str.length - 1) == '\n') {	
+						document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
+						lines--;
+						chars = max_length;
+					}
+					
+					if (chars > ((lines > 0) ? 0 : startupLen)) {
+						var str = document.getElementById('const').textContent;
+						document.getElementById('const').innerHTML = str.substring(0, str.length - 1);
+						chars--;
+					}
 				}
 			}
-
 		})
 	}
 
