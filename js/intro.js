@@ -1,12 +1,12 @@
 var animate = function() {
-  var element = document.getElementById("txtcrs");
+  var element = document.getElementById("cursor");
   var visible = element.style.opacity;
   if (visible == 0.5) {
     element.style.opacity = 0;
   } else {
     element.style.opacity = 0.5;
   }
-  setTimeout(animate, 400);
+  setTimeout(animate, 500);
 }
 animate();
 

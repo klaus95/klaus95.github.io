@@ -4,7 +4,7 @@ var lines = 0;
 var code = 0;
 
 var startupLen = 0;
-var startupText = "root@klauscipi.com $ ";
+var startupText = "root@klauscipi.dev $ ";
 
 var focused = false;
 var fakeTextarea;
