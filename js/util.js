@@ -23,10 +23,13 @@ function optimizeUI() {
 function startup() {
 	startupLen = startupText.length;
 	chars = startupLen;
+    document.getElementById("const").innerHTML = startupText;
+    document.getElementById("cursor").style.position = "initial";
 
-	document.getElementById("const").innerHTML = startupText;
-	document.getElementById("greeting").innerHTML = greetVisitor(new Date().getHours());
-	document.getElementById("cursor").style.position = "initial";
+    var time = new Date();
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById("greeting").innerHTML = greetVisitor(time.getHours());
+    document.getElementById("time").innerHTML = time.toString().toLowerCase().substring(0,25);
 	
 	optimizeUI()
 }

@@ -20,23 +20,6 @@ function optimizeBarBtn2() {
 
   }
 }
-//Not used
-function optimizeBarBtn() {
-  var divWidth = document.getElementById("bar-pos").getBoundingClientRect().width;
-  
-	sum = 1;
-	for (var i = 0; i < 4; i++){
-		sum += document.getElementsByClassName("btns").item(i).getBoundingClientRect().width + 12;
-	}
-
-	if (divWidth < sum){
-		var newMargin = (parseInt(sum) - divWidth)/8;
-		console.log(newMargin);
-		for (var i = 0; i < 4; i++){
-			sum += document.getElementsByClassName("btns").item(i).style.margin = "1px " + parseInt(6 - newMargin) + "px";
-		}
-	} 
-}
 
 function openWindow() {
   document.getElementById("window").style.opacity = "1";
@@ -95,7 +78,7 @@ function TypeWriter(index) {
 }
 
 // Calling all animations
-for (var i = 1; i < 5; i++) {
+for (var i = 1; i < 4; i++) {
   TypeWriter(i);
   Blink(i);
   Show(i);

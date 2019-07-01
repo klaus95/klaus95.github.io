@@ -18,8 +18,7 @@
 			<div id="bar-pos">
 				<span class="btns" ><span id="btn_1" ></span><span id="btn_crs_1">_</span><span id="btn_1_em" >Terminal</span></span>
 				<span class="btns" ><span id="btn_2" ></span><span id="btn_crs_2">_</span><span id="btn_2_em" >Projects</span></span>
-				<span class="btns" ><span id="btn_3" ></span><span id="btn_crs_3">_</span><span id="btn_3_em" >About</span></span>
-				<span class="btns" ><span id="btn_4" ></span><span id="btn_crs_4">_</span><span id="btn_4_em" >Contact</span></span>
+				<span class="btns" ><span id="btn_3" ></span><span id="btn_crs_3">_</span><span id="btn_3_em" >Contact</span></span>
 			</div>
 		</div>
 		<div class="intro">
@@ -33,7 +32,8 @@
 				Currently, I am seeking an entry-level position in a vibrant and interesting organisation that will encourage me to enhance my creative and 
 				technical knowledge in <span style="color:red">software development</span>, and allow me to learn and use innovative new skills and technologies.
 				<br><br>
-				Allow your inner nerd to navigate through my website using the <span style="color:yellow" >terminal</span> below. Click on the terminal, and type "help" for the list of all available commands.
+				Allow your inner nerd to navigate through my website using the <span style="color:yellow" >terminal</span> below. Click on the terminal, 
+				and type "help" for the list of all available commands.<span id="txtcrs">_</span>
 			</p>
 		</div>
 		<div id="window">
@@ -47,6 +47,7 @@
 				</div>
 			</div>
 			<div id="terminal" onclick="focusOnTerminal()">
+				<div>login: <span id="time"></span> on kcserver</div>
 				<div id="history"></div>
 				<div id="row">
 					<span id="const"></span><span id="cursor">_</span>
@@ -68,5 +69,6 @@
 	<script src="js/intro.js"></script>
 	<script src="js/terminal.js"></script>
 	<script src="js/util.js"></script>
+	<script src="js/data/database.js"></script>
 </body>
 </html>
