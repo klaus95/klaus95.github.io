@@ -5,6 +5,7 @@ var lines = 0;
 var code = 0;
 
 var fakeTextarea = undefined;
+var beforeInputText = "";
 
 function focusOnTerminal(){
 
@@ -18,13 +19,19 @@ function focusOnTerminal(){
 		document.getElementById("terminal").appendChild(fakeTextarea);
 		fakeTextarea.style.resize = "none";
 
-		fakeTextarea.addEventListener("beforeinput", function (e) {
+		fakeTextarea.addEventListener("keydown", function (e) { 
+			code = e.keyCode || e.which; 
+		})
 
+		fakeTextarea.addEventListener("input", function (e) {
 			var typed = e.data;
-			
+
 			if (typed != null) { 
-				if (typed.length > 1) { letters(typed.substring(typed.length - 1, typed.length)); } 
-				else { letters(typed); }
+				if (fakeTextarea.value.length - beforeInputText.length < 0) { backspace() } 
+				else {
+					if (typed.length > 1) { letters(typed.substring(typed.length - 1, typed.length)); } 
+					else { letters(typed); }
+				}
 			} else {
 				if (code == 13) { 
 					enter();
@@ -33,15 +40,16 @@ function focusOnTerminal(){
 				}
 			}
 
-			e.data = "";
+		})
+
+		fakeTextarea.addEventListener("beforeinput", function (e) {
+			beforeInputText = fakeTextarea.value;
 		})
 	}
 	
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
 	fakeTextarea.focus();
 }
-
-window.addEventListener("keydown", function (e) { code = e.keyCode || e.which; })
 
 function backspace() {
 	var str = document.getElementById('const').textContent;
