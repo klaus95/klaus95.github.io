@@ -1,18 +1,15 @@
+var startupLen = 0;
 var max_length = 0;
 var chars = 0;
 var lines = 0;
 var code = 0;
 
-var startupLen = 0;
-var startupText = "root@klauscipi.dev $ ";
-
-var focused = false;
-var fakeTextarea;
+var fakeTextarea = undefined;
 
 function focusOnTerminal(){
 
-	if (!focused) {
-
+	if (fakeTextarea == undefined) {
+		
 		fakeTextarea = document.createElement("textarea");
 		fakeTextarea.style.position = "fixed";
 		fakeTextarea.style.left = "-250px";
@@ -36,10 +33,9 @@ function focusOnTerminal(){
 			}
 		})
 	}
-
+	
 	document.getElementById("window").style.boxShadow = "15px 15px 40px #000000";
 	fakeTextarea.focus();
-	focused = true;
 }
 
 window.addEventListener("keydown", function (e) { code = e.keyCode || e.which; })
@@ -126,6 +122,7 @@ function analyzeCommand(command) {
 	}
 }
 
+//TODO :: Add games
 function play(tokens) {
 	return "play: error: command not implemented!";
 }
@@ -150,14 +147,40 @@ function list(tokens) {
 						+ "Concepts: " + formatListHorizontal(resume["skills"]["concepts"])
 						+ "Tools: " + formatListHorizontal(resume["skills"]["tools"]);
 			case "awards":
-				//TO DO
-				return;
+				var response = "";
+				for(var i = 0; i < resume["awards"].length; i++) {
+					if (i != 0) { response += "\n"; }
+					response += "Award: " + resume["awards"][i]["name"] + "\n"
+								+ "Academic Level: " + resume["awards"][i]["level"] + "\n"
+								+ "Description: " + resume["awards"][i]["description"] + "\n"
+								+ "Date Received: " + resume["awards"][i]["date"] + "\n"; 
+				}
+				return response;	
 			case "experiences":
-				//TO DO
-				return;			
+				var response = "";
+				for (var i = 0; i < resume["experiences"].length; i++) {
+					response +=  resume["experiences"][i]["reference"] + "\n";
+				}
+				return response;			
 			case "projects":
-				//TO DO
-				return;			
+				var response = "";
+				for (var i = 0; i < resume["projects"].length; i++) {
+					response +=  resume["projects"][i]["reference"] + "\n";
+				}
+				return response;		
+			case "education":
+				var response = "";
+				for(var i = 0; i < resume["education"].length; i++) {
+					if (i != 0) { response += "\n"; }
+					response += "Institution: " + resume["education"][i]["name"] + "\n"
+								+ "Academic Level: " + resume["education"][i]["level"] + "\n"
+								+ "Location: " + resume["education"][i]["location"] + "\n"
+								+ "Start Date: " + resume["education"][i]["start"] + "\n"
+								+ "End Date: " + resume["education"][i]["end"] + "\n"
+								+ "Overall Grade: " + resume["education"][i]["grade"] + "\n"
+								+ "Degree: " + resume["education"][i]["degree"] + "\n"; 
+				}
+				return response;	
 			case "courses":
 				return formatListVertical(resume["courses"]);
 			case "games":
@@ -168,23 +191,44 @@ function list(tokens) {
 
 	} else {
 
-		var jsonObj = objExists(resume["projects"], tokens[1]);
-		if (jsonObj == undefined) { return tokens[1] + ": error: project not found!"; }
+		if (tokens[1] == "-a") {
 
-		switch(tokens[2]) {
-			case "files":
-				var response = "";
-				for (var i = 0; i < jsonObj["files"].length; i++) {
-					//TO DO change links
-					response += jsonObj["files"][i] + " -> " + str.link(jsonObj["files"][i]) + "\n";
-				}
-				return response;	
-			case "technologies":
-					return formatListVertical(jsonObj["tech"]);
-			case "members":
-				return formatListVertical(jsonObj["members"]);
-			default:
-				return error(tokens[0] + " " + tokens[1] + " " + tokens[2]);
+			switch (tokens[2]) {
+				case "projects":
+					var response = "";
+					for(var i = 0; i < resume["projects"].length; i++) {
+						if (i != 0) { response += "\n"; }
+						response += formatProjects(resume["projects"][i]);
+					}
+					return response;
+				case "experiences":
+					var response = "";
+					for(var i = 0; i < resume["experiences"].length; i++) {
+						if (i != 0) { response += "\n"; }
+						response += formatExperiences(resume["experiences"][i]);
+					}
+					return response;
+				default:
+					return error(tokens[0] + " " + tokens[1] + " " + tokens[2]);
+			}
+		} else {
+			var jsonObj = objExists(resume["projects"], tokens[1]);
+			if (jsonObj == undefined) { return tokens[1] + ": error: project not found!"; }
+	
+			switch(tokens[2]) {
+				case "files":
+					var response = "";
+					for (var i = 0; i < jsonObj["files"].length; i++) {
+						response += jsonObj["files"][i].substring(jsonObj["files"][i].lastIndexOf("/") + 1, jsonObj["files"][i].length).link(jsonObj["files"][i]) + "\n";
+					}
+					return response;	
+				case "technologies":
+						return formatListVertical(jsonObj["tech"]);
+				case "members":
+					return formatListVertical(jsonObj["members"]);
+				default:
+					return error(tokens[0] + " " + tokens[1] + " " + tokens[2]);
+			}
 		}
 	}
 }
@@ -193,28 +237,11 @@ function more(tokens) {
 		case "-p":
 			var jsonObj = objExists(resume["projects"], tokens[2]);
 			if (jsonObj == undefined) { return tokens[2] + ": error: project not found!"; }
-
-			//TO DO
-
-			return "more -p: error: command not implemented!";
+			return formatProjects(jsonObj);
 		case "-e":
 			var jsonObj = objExists(resume["experiences"], tokens[2]);
 			if (jsonObj == undefined) { return tokens[2] + ": error: experience not found!"; }
-			response = "Company: " + jsonObj["company"] + "\n"
-						+ "Title: " + jsonObj["title"] + "\n"
-						+ "Start date: " + jsonObj["start"] + "\n"
-						+ "End date: " + jsonObj["end"] + "\n"
-						+ "Duration: " + jsonObj["duration"] + "\n"
-						+ "Responsibilities: ";
-			for (var i = 0; i < jsonObj["responsibilities"].length; i++) {
-				response += jsonObj["responsibilities"][i] + "\n";
-			}
-			response += "Files: ";
-			for (var i = 0; i < jsonObj["files"].length; i++) {
-				//TO DO change links
-				response += "\t" + jsonObj["files"][i] + " -> " + str.link(jsonObj["files"][i]) + "\n";
-			}
-			return response;
+			return formatExperiences(jsonObj);
 		default:
 			return error(tokens[0] + " " + tokens[1]);
 	}
@@ -252,6 +279,41 @@ function error(command) {
 	return command + ": error: command not found!"
 }
 
+function formatProjects(obj) {
+	var response =    "REFERENCE NAME: " + obj["reference"] + "\n"
+					+ "Project Name: " + obj["name"] + "\n"
+					+ "Ownership: " + obj["level"] + "\n"
+					+ "Date: " + obj["date"] + "\n"
+					+ "Duration: " + obj["duration"] + "\n"
+					+ "Description: " + obj["description"] + "\n"
+					+ "Tools: " + formatListHorizontal(obj["tech"])
+					+ "Members: " + formatListHorizontal(obj["members"]);
+	if (obj["files"].length > 0) {
+		response += "Files: ";
+		for (var i = 0; i < obj["files"].length; i++) {
+			response += "\t" + obj["files"][i].substring(obj["files"][i].lastIndexOf("/") + 1, obj["files"][i].length).link(obj["files"][i]) + "\n";
+		}
+	}
+	response += "URL: " + obj["url"].link(obj["url"]) + "\n"
+			 + "Status: " + obj["status"] + "\n";
+	return response;
+}
+function formatExperiences(obj) {
+	var response =    "REFERENCE NAME: " + obj["reference"] + "\n"
+					+ "Company: " + obj["company"] + "\n"
+					+ "Title: " + obj["title"] + "\n"
+					+ "Start date: " + obj["start"] + "\n"
+					+ "End date: " + obj["end"] + "\n"
+					+ "Duration: " + obj["duration"] + "\n"
+					+ "Responsibilities: " + formatListVertical(obj["responsibilities"]);
+	if (obj["files"].length > 0) {
+		response += "Files: ";
+		for (var i = 0; i < obj["files"].length; i++) {
+			response += "\t" + obj["files"][i].substring(obj["files"][i].lastIndexOf("/") + 1, obj["files"][i].length).link(obj["files"][i]) + "\n";
+		}
+	}
+	return response;
+}
 function formatListHorizontal(array) {
 	var formatted = "";
 	for (var i = 0; i < array.length; i++) {

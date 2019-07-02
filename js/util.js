@@ -21,6 +21,8 @@ function optimizeUI() {
 }
 
 function startup() {
+    var startupText = "root@klauscipi.dev $ ";
+
 	startupLen = startupText.length;
 	chars = startupLen;
     document.getElementById("const").innerHTML = startupText;

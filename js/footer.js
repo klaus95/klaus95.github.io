@@ -18,6 +18,7 @@ var len = (i * 20) + 10;
 changeVars(str, len);
 }
 
+// TODO :: Eleminate all card coded values
 function optimizeFooter() {
     var windowW = window.innerWidth;
     var elements = document.getElementsByClassName("links");

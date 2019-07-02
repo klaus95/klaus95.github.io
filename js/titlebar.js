@@ -2,6 +2,7 @@ function Show(index) {
   document.getElementById("btn_" + index).setAttribute("onclick", "openWindow()");
 }
 
+// TODO :: Eleminate all card coded values
 function optimizeBarBtn2() {
   var windowW = window.innerWidth;
   var elements = document.getElementsByClassName("btns");
