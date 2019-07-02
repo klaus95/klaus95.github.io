@@ -23,7 +23,8 @@ function focusOnTerminal(){
 			var typed = e.data;
 			
 			if (typed != null) { 
-				letters(typed);
+				if (typed.length > 1) { letters(typed.substring(typed.length - 1, typed.length)); } 
+				else { letters(typed); }
 			} else {
 				if (code == 13) { 
 					enter();
