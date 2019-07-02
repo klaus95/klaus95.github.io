@@ -98,7 +98,7 @@ function updateScroll(){
 
 function analyzeCommand(command) {
 	if (command.length > 0) {
-		var tokens = command.split(" ");
+		var tokens = command.toLowerCase().split(" ");
 		var validation = argValidation(tokens);
 		if (validation != "valid") { return validation; }
 
@@ -115,6 +115,8 @@ function analyzeCommand(command) {
 				return help();
 			case "man":
 				return man(tokens);
+			case "clear":
+				return clear();
 			default:
 				return error(command);
 		}
@@ -124,17 +126,109 @@ function analyzeCommand(command) {
 	}
 }
 
-function more(tokens) {
-	return "more: error: command not implemented! " + str.link("https://klauscipi.dev");
-}
-function list(tokens) {
-	return "list: error: command not implemented!";
-}
-function download(tokens) {
-	return "download: error: command not implemented!";
-}
 function play(tokens) {
 	return "play: error: command not implemented!";
+}
+function list(tokens) {
+	if (tokens.length == 2) {
+
+		switch(tokens[1]) {
+			case "contacts":
+				var response = "";
+				for (key in resume["contacts"]) {
+					if (key == "Email") {
+						response += resume["contacts"][key].substring(7,resume["contacts"][key].length).link(resume["contacts"][key]) + "\n";
+					} else if (key == "Phone Number") {
+						response += resume["contacts"][key] + "\n";
+					} else {
+						response += resume["contacts"][key].link(resume["contacts"][key]) + "\n";
+					}
+				}
+				return response;			
+			case "skills":
+				return "Programming languages: " + formatListHorizontal(resume["skills"]["languages"])
+						+ "Concepts: " + formatListHorizontal(resume["skills"]["concepts"])
+						+ "Tools: " + formatListHorizontal(resume["skills"]["tools"]);
+			case "awards":
+				//TO DO
+				return;
+			case "experiences":
+				//TO DO
+				return;			
+			case "projects":
+				//TO DO
+				return;			
+			case "courses":
+				return formatListVertical(resume["courses"]);
+			case "games":
+				return formatListVertical(commands["play"]["commands"]);
+			default:
+				return error(tokens[0] + " " + tokens[1]);
+		}
+
+	} else {
+
+		var jsonObj = objExists(resume["projects"], tokens[1]);
+		if (jsonObj == undefined) { return tokens[1] + ": error: project not found!"; }
+
+		switch(tokens[2]) {
+			case "files":
+				var response = "";
+				for (var i = 0; i < jsonObj["files"].length; i++) {
+					//TO DO change links
+					response += jsonObj["files"][i] + " -> " + str.link(jsonObj["files"][i]) + "\n";
+				}
+				return response;	
+			case "technologies":
+					return formatListVertical(jsonObj["tech"]);
+			case "members":
+				return formatListVertical(jsonObj["members"]);
+			default:
+				return error(tokens[0] + " " + tokens[1] + " " + tokens[2]);
+		}
+	}
+}
+function more(tokens) {
+	switch (tokens[1]) {
+		case "-p":
+			var jsonObj = objExists(resume["projects"], tokens[2]);
+			if (jsonObj == undefined) { return tokens[2] + ": error: project not found!"; }
+
+			//TO DO
+
+			return "more -p: error: command not implemented!";
+		case "-e":
+			var jsonObj = objExists(resume["experiences"], tokens[2]);
+			if (jsonObj == undefined) { return tokens[2] + ": error: experience not found!"; }
+			response = "Company: " + jsonObj["company"] + "\n"
+						+ "Title: " + jsonObj["title"] + "\n"
+						+ "Start date: " + jsonObj["start"] + "\n"
+						+ "End date: " + jsonObj["end"] + "\n"
+						+ "Duration: " + jsonObj["duration"] + "\n"
+						+ "Responsibilities: ";
+			for (var i = 0; i < jsonObj["responsibilities"].length; i++) {
+				response += jsonObj["responsibilities"][i] + "\n";
+			}
+			response += "Files: ";
+			for (var i = 0; i < jsonObj["files"].length; i++) {
+				//TO DO change links
+				response += "\t" + jsonObj["files"][i] + " -> " + str.link(jsonObj["files"][i]) + "\n";
+			}
+			return response;
+		default:
+			return error(tokens[0] + " " + tokens[1]);
+	}
+}
+function download(tokens) {
+	if (tokens[1] == "resume") {
+		return "Download here".link("https://klauscipi.dev/docs/resume.pdf");
+	} else {
+		return error(tokens[0] + " " + tokens[1]);
+	}
+}
+function clear(){
+	document.getElementById('history').innerHTML = "";
+	return "";
 }
 function help() {
 	var response = "";
@@ -155,7 +249,36 @@ function man(tokens) {
 	return response;
 }
 function error(command) {
-	return command + ": command not found!"
+	return command + ": error: command not found!"
+}
+
+function formatListHorizontal(array) {
+	var formatted = "";
+	for (var i = 0; i < array.length; i++) {
+		if (i == 0) {
+			formatted += array[i];
+		} else {
+			formatted += ", " + array[i];
+		}
+	}
+	return formatted + ".\n";
+}
+
+function formatListVertical(array) {
+	var formatted = "";
+	for (var i = 0; i < array.length; i++) {
+		formatted += array[i] + "\n";
+	}
+	return formatted;
+}
+
+function objExists(obj, comp) {
+	for (var i = 0; i < obj.length; i++) {
+		if (obj[i]["reference"] == comp){
+			return obj[i];
+		}
+	}
+	return undefined;
 }
 
 function argValidation(tokens) {

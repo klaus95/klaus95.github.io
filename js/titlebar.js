@@ -23,7 +23,7 @@ function optimizeBarBtn2() {
 
 function openWindow() {
   document.getElementById("window").style.opacity = "1";
-  window.open("pages/demo.html", "_self")
+  window.open("index.html", "_self")
 }
 
 var stop_animation = [false, false, false, false, false];
