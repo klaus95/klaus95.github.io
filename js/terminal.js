@@ -32,6 +32,8 @@ function focusOnTerminal(){
 					backspace();
 				}
 			}
+
+			e.data = "";
 		})
 	}
 	
